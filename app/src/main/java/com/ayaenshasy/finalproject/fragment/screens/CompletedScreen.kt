@@ -19,6 +19,7 @@ import com.ayaenshasy.finalproject.R
 import com.ayaenshasy.finalproject.model.Data
 import com.ayaenshasy.finalproject.model.Post
 import com.ayaenshasy.finalproject.viewModel.AllWorkViewModel
+import com.example.example.Data2
 
 @Composable
 fun CompletedScreen(liveDataAllWorkModel: AllWorkViewModel){
@@ -34,7 +35,7 @@ fun CompletedScreen(liveDataAllWorkModel: AllWorkViewModel){
 
 
 @Composable
-fun CompletedScreenList(listModel: List<Data>){
+fun CompletedScreenList(listModel: List<Data2>){
     LazyColumn{
         itemsIndexed(items = listModel){
                 index, item ->
@@ -44,7 +45,7 @@ fun CompletedScreenList(listModel: List<Data>){
 }
 
 @Composable
-fun CompletedScreenCard(data: Data) {
+fun CompletedScreenCard(data: Data2) {
     Column(
         Modifier
             .fillMaxSize()
@@ -71,8 +72,8 @@ fun CompletedScreenCard(data: Data) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 16.dp) ) {
 
-                    Text(text = data.description.toString(), color =  Color.Gray, fontSize = 14.sp,modifier = Modifier.padding(horizontal = 10.dp) )
-                    Text(text = data.name.toString(), color = colorResource(id = R.color.blue), fontSize = 14.sp)
+                    Text(text = data.details.toString(), color =  Color.Gray, fontSize = 14.sp,modifier = Modifier.padding(horizontal = 10.dp) )
+                    Text(text = data.work!!.name.toString(), color = colorResource(id = R.color.blue), fontSize = 14.sp)
 
                 }    }
         }

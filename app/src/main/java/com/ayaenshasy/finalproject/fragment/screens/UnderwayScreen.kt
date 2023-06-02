@@ -1,5 +1,8 @@
 package com.ayaenshasy.finalproject.fragment.screens
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,7 +22,13 @@ import com.ayaenshasy.finalproject.R
 import com.ayaenshasy.finalproject.model.Data
 import com.ayaenshasy.finalproject.model.Post
 import com.ayaenshasy.finalproject.viewModel.AllWorkViewModel
+import com.example.example.Data2
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun UnderwayScreen(liveDataAllWorkModel: AllWorkViewModel){
 
@@ -33,8 +42,9 @@ fun UnderwayScreen(liveDataAllWorkModel: AllWorkViewModel){
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun UnderwayScreenList(listModel: List<Data>){
+fun UnderwayScreenList(listModel: List<Data2>){
     LazyColumn{
         itemsIndexed(items = listModel){
                 index, item ->
@@ -43,8 +53,9 @@ fun UnderwayScreenList(listModel: List<Data>){
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun UnderwayScreenCard(data: Data) {
+fun UnderwayScreenCard(data: Data2) {
     Column(
         Modifier
             .fillMaxSize()
@@ -61,8 +72,14 @@ fun UnderwayScreenCard(data: Data) {
                         text = "${"# "+data.id}", color = colorResource(id = R.color.black), fontSize = 14.sp,
                         textAlign = TextAlign.Start,
                     )
+                    val dateString = data.createdAt.toString()
+                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val instant = Instant.parse(dateString)
+                    val formattedDate = formatter.format(instant.atZone(ZoneId.systemDefault()))
+
+                    Log.e("formattedDate",formattedDate)
                     Text(
-                        text = data.createdAt.toString(), color = Color.Gray, fontSize = 14.sp,
+                        text =formattedDate , color = Color.Gray, fontSize = 14.sp,
                         textAlign = TextAlign.End
                     )
                 }
@@ -71,8 +88,8 @@ fun UnderwayScreenCard(data: Data) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 16.dp) ) {
 
-                    Text(text = data.description.toString(), color =  Color.Gray, fontSize = 14.sp,modifier = Modifier.padding(horizontal = 10.dp) )
-                    Text(text = data.name.toString(), color = colorResource(id = R.color.blue), fontSize = 14.sp)
+                    Text(text = "Service Type :", color =  Color.Gray, fontSize = 14.sp,modifier = Modifier.padding(horizontal = 10.dp) )
+                    Text(text = data.work!!.name.toString(), color = colorResource(id = R.color.blue), fontSize = 14.sp)
 
                 }    }
         }

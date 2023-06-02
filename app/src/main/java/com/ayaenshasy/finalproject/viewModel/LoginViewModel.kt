@@ -23,18 +23,19 @@ class LoginViewModel : ViewModel() {
             val response =apiService.login(UserCredentials(email, password))
 
             if (response.success==true) {
+                navController.popBackStack()
                      saveToken(response.data.token.toString(), context)
                     navController.navigate("main_screen")
                     Toast.makeText(context, response.message.toString(), Toast.LENGTH_LONG).show()
-                    Log.e("_authToken", response.data.token.toString())
-                    Log.e("email", response.data.name.toString())
-                    Log.e("email", response.data.email.toString())
+
                 saveUserData(response.data.name.toString(),response.data.email.toString(),context)
              } else {
                  Toast.makeText(context,response.message.toString(),Toast.LENGTH_LONG).show();
                  Log.e("message",response.message.toString())
             }
+
         }
+
     }
 
     fun register(
@@ -48,6 +49,7 @@ class LoginViewModel : ViewModel() {
             val response =apiService.register(UserRegister(name,email,phone, password))
 
             if (response.success == true) {
+                navController.popBackStack()
                 saveToken(response.data.token.toString(), context)
                 navController.navigate("main_screen")
                 Toast.makeText(context, response.message.toString(), Toast.LENGTH_LONG).show()
@@ -65,7 +67,7 @@ class LoginViewModel : ViewModel() {
 fun saveToken(token: String, context: Context) {
     val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
     val editor = sharedPrefs.edit()
-    editor.putString("auth_token", token)
+    editor.putString("auth_token","Bearer "+ token)
     editor.apply()
 }
 

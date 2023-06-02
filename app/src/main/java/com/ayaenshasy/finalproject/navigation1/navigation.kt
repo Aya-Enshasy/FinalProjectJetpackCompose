@@ -28,8 +28,7 @@ fun navigation(loginViewModel: LoginViewModel,liveDataAllWorkModel:AllWorkViewMo
 
         composable("main_screen") {
             MainScreen(liveDataAllWorkModel)
-//            navController.popBackStack()
-        }
+         }
         composable("onboard_screen") {
             OnboardingUI(navController = navController)
          }

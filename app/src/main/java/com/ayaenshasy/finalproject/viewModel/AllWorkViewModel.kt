@@ -8,20 +8,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
  import com.ayaenshasy.finalproject.model.Data
 import com.ayaenshasy.finalproject.service.ApiService
+import com.example.example.Data2
 import com.example.example.ExampleJson2KtKotlin
 import kotlinx.coroutines.launch
 
 class AllWorkViewModel  : ViewModel(){
 
     var liveDataAllWork : List<Data> by  mutableStateOf(listOf())
-    var liveDataPendingWork : List<Data> by  mutableStateOf(listOf())
-    var liveDataCompleteWork : List<Data> by  mutableStateOf(listOf())
-    var liveDataUnCompleteWork : List<Data> by  mutableStateOf(listOf())
+    var liveDataPendingWork : List<Data2> by  mutableStateOf(listOf())
+    var liveDataCompleteWork : List<Data2> by  mutableStateOf(listOf())
+    var liveDataUnCompleteWork : List<Data2> by  mutableStateOf(listOf())
 
     fun getAllWork(){
         viewModelScope.launch {
             val apiService=ApiService.geInstance()
-
 
             try {
                 val listAllWork=apiService.getAllWorkResponse()
@@ -40,17 +40,20 @@ class AllWorkViewModel  : ViewModel(){
     fun getUnCompleteOrders(context:Context){
         viewModelScope.launch {
             val apiService=ApiService.geInstance()
+
             try {
                 val listAllWork=apiService.getUnCompleteOrders(getAuthToken(context)!!)
                 liveDataUnCompleteWork = listAllWork.data
                 Log.d("AllWork", "getAllWork: $liveDataUnCompleteWork")
             } catch (e: Exception) {
                 Log.e("TAG2", e.message.toString())
+                Log.e("TAG2", getAuthToken(context)!!)
 
-             }
+            }
 
 
         }
+
 
     }
 
@@ -64,8 +67,6 @@ class AllWorkViewModel  : ViewModel(){
             } catch (e: Exception) {
                 Log.e("TAG", e.message.toString())
                 Log.e("TAG", e.suppressedExceptions.toString())
-
-                Log.e("TAG", liveDataPendingWork.toString())
             }
 
 
@@ -87,7 +88,7 @@ class AllWorkViewModel  : ViewModel(){
 
     }
 
-    fun getAuthToken(context: Context): String? {
+    private fun getAuthToken(context: Context): String? {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
         return sharedPrefs.getString("auth_token", null)
     }

@@ -32,15 +32,18 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true) {
         delay(3000L)
+        navController.popBackStack()
+
         getIsFirstTime(context)
         Log.e("token",getAuthToken(context).toString())
 
-        if (!getAuthToken(context).equals("") && getIsFirstTime(context) == true)
+        if (getAuthToken(context)!=null && getIsFirstTime(context) == true)
             navController.navigate("main_screen")
-        else if (getAuthToken(context).equals("") && getIsFirstTime(context) == false)
+        else if (getAuthToken(context)==null && getIsFirstTime(context) == false)
             navController.navigate("onboard_screen")
         else
             navController.navigate("login_screen")
+
 
 
     }

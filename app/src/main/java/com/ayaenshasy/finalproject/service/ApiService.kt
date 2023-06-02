@@ -2,6 +2,7 @@ package com.ayaenshasy.finalproject.service
 
 import com.ayaenshasy.finalproject.model.*
 import com.example.example.ExampleJson2KtKotlin
+import com.example.example.ExampleJson3KtKotlin
 import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -19,13 +20,13 @@ interface ApiService {
     suspend fun getAllWorkResponse(): AllWorkResponse
 
     @GET("order/pending/user")
-    suspend fun getPendingOrders(@Header("Authorization") Authorization: String): AllWorkResponse
+    suspend fun getPendingOrders(@Header("Authorization") Authorization: String): ExampleJson3KtKotlin
 
-    @GET("order/UnComplete/user")//todo
-    suspend fun getUnCompleteOrders(@Header("Authorization") Authorization: String): AllWorkResponse
+    @GET("order/un/complete/user")//todo
+    suspend fun getUnCompleteOrders(@Header("Authorization") Authorization: String): ExampleJson3KtKotlin
 
     @GET("order/complete/user")
-    suspend fun getCompleteOrders(@Header("Authorization") Authorization: String): AllWorkResponse
+    suspend fun getCompleteOrders(@Header("Authorization") Authorization: String): ExampleJson3KtKotlin
 
     @POST("auth/login/user")
     suspend fun login(@Body credentials: UserCredentials): LoginResponse

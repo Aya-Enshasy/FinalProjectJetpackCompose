@@ -51,7 +51,7 @@ fun OnboardingUI(
                 .fillMaxWidth()
                 .weight(1f) ) { page ->
 
-            PageUI(context,page = onboardPages[page],navController,pagerState)
+            PageUI(page = onboardPages[page],navController,pagerState)
         }
 
         HorizontalPagerIndicator(pagerState = pagerState,
@@ -85,7 +85,7 @@ val onboardPages = listOf(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PageUI(context:Context,page: Page, navController: NavController, pagerState:PagerState) {
+fun PageUI(page: Page, navController: NavController, pagerState:PagerState) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -104,26 +104,29 @@ fun PageUI(context:Context,page: Page, navController: NavController, pagerState:
         )
 
 
-        Text(text = "Fast reservation with technicians \n" + "and craftsmen", Modifier
+        Text(text = "Fast reservation with technicians \n" + "and craftsmen",
+            Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),color = colorResource(id = R.color.text), fontWeight = FontWeight.Bold, fontSize = 20.sp, textAlign = TextAlign.Center,)
 
 
         Spacer(modifier = Modifier.padding(50.dp))
 
-        AnimatedVisibility(visible = pagerState.currentPage == 2 ) {
+        AnimatedVisibility(visible = pagerState.currentPage == 2) {
             GradientButton {
-                if (getAuthToken(context)!=null)
-                    navController.navigate("main_screen")
-                else
-                    navController.navigate("login_screen")
-            }
+                navController.popBackStack()
+                navController.navigate("login_screen")
 
+            }
         }
 
     }
 
+
 }
+
+
+
 
 @Composable
 fun GradientButton(onClick: () -> Unit) {
@@ -131,10 +134,10 @@ fun GradientButton(onClick: () -> Unit) {
     val scope = rememberCoroutineScope()
     val dataStore = StoreData(context)
 
-
     Button(
         modifier = Modifier
-            .fillMaxWidth().height(48.dp)
+            .fillMaxWidth()
+            .height(48.dp)
             .padding(horizontal = 16.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color.Transparent
@@ -148,7 +151,8 @@ fun GradientButton(onClick: () -> Unit) {
     {
         Box(
 
-            modifier = Modifier.height(48.dp)
+            modifier = Modifier
+                .height(48.dp)
                 .background(
                     brush = Brush.horizontalGradient(
                         colors = listOf(
@@ -156,7 +160,8 @@ fun GradientButton(onClick: () -> Unit) {
                             colorResource(id = R.color.blue),
                         )
                     ),
-                ).fillMaxWidth()
+                )
+                .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center
