@@ -1,5 +1,6 @@
 package com.ayaenshasy.finalproject.fragment.screens
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
@@ -35,14 +36,14 @@ import okhttp3.internal.wait
 
 
 @Composable
-fun SettingsScreen(navController:NavController,) {
+fun SettingsScreen(navController: NavController) {
     AccountScreen(navController)
 }
 
 @Composable
-fun AccountScreen(navController:NavController,) {
-val context = LocalContext.current
-         Column(
+fun AccountScreen(navController: NavController) {
+    val context = LocalContext.current
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
@@ -69,41 +70,60 @@ val context = LocalContext.current
     Column(
         Modifier
             .fillMaxSize()
-            .padding(top = 100.dp) ,) {
+            .padding(top = 100.dp),
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth(),
             elevation = 4.dp,
             shape = RoundedCornerShape(topEnd = 20.dp, topStart = 20.dp),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 85.dp), horizontalArrangement = Arrangement.Center
             ) {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 85.dp), horizontalArrangement = Arrangement.Center) {
-                Text(text = getName(context).toString(), color = Color.Black, textAlign = TextAlign.Center, fontSize =30.sp)
-                Image(painter = painterResource(id = R.drawable.edit) , contentDescription = "", modifier = Modifier
-                    .size(24.dp)
-                    .padding(start = 10.dp))
+                Text(
+                    text = getName(context).toString(),
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
+                    fontSize = 30.sp
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.edit),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(start = 10.dp)
+                )
             }
 
-            Text(text = getEmail(context).toString(), color = Color.Black, textAlign = TextAlign.Center, modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 130.dp, bottom = 20.dp), fontSize =16.sp)
+            Text(
+                text = getEmail(context).toString(),
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 130.dp, bottom = 20.dp),
+                fontSize = 16.sp
+            )
 
         }
 
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp) , elevation = 4.dp,
-         ) {
-            LazyColumn{
-                items(more1){post->
-                    MoreCard1( post)
+                .padding(top = 16.dp),
+            elevation = 4.dp,
+        ) {
+            LazyColumn {
+                items(more1) { post ->
+                    MoreCard1(post)
                 }
             }
         }
 
-        ButtonWithIcon(context,navController )
+        ButtonWithIcon(context, navController)
     }
 
     RoundCornerImageView()
@@ -127,11 +147,11 @@ fun RoundCornerImageView() {
     )
 }
 
-val more1= listOf(
-    Profile1(name ="Language","English"  ),
-    Profile1(name ="My Rates",""  ),
-    Profile1(name ="Contact us",""  ),
-    Profile1(name ="Share App" ,"" ),
+val more1 = listOf(
+    Profile1(name = "Language", "English"),
+    Profile1(name = "My Rates", ""),
+    Profile1(name = "Contact us", ""),
+    Profile1(name = "Share App", ""),
 )
 
 @Composable
@@ -139,64 +159,86 @@ fun MoreCard1(post: Profile1) {
     Column(
         Modifier
             .fillMaxSize()
-            .padding(top = 7.dp)) {
+            .padding(top = 7.dp)
+    ) {
 
-        Card(modifier = Modifier.fillMaxWidth() , elevation = 0.dp,  backgroundColor = colorResource(id = R.color.white)
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = 0.dp,
+            backgroundColor = colorResource(id = R.color.white)
         ) {
             Column(Modifier.fillMaxWidth()) {
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
                     Text(
-                        text = post.name, color = colorResource(id = R.color.black), fontSize = 14.sp,
+                        text = post.name,
+                        color = colorResource(id = R.color.black),
+                        fontSize = 14.sp,
                         textAlign = TextAlign.Start,
                     )
 
                     Row() {
                         Text(
-                            text = post.details, color = colorResource(id = android.R.color.system_accent2_500), fontSize = 14.sp,
+                            text = post.details,
+                            color = colorResource(id = android.R.color.system_accent2_500),
+                            fontSize = 14.sp,
                             textAlign = TextAlign.Start,
                         )
-                        Icon(imageVector =  Icons.Default.KeyboardArrowRight, contentDescription = " ", tint = Color.Gray)
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowRight,
+                            contentDescription = " ",
+                            tint = Color.Gray
+                        )
 
                     }
 
                 }
 
 
-
-            }}}
+            }
+        }
+    }
 
 }
 
 @Composable
 fun ButtonWithIcon(context: Context, navController: NavController) {
-    val coroutineScope = rememberCoroutineScope()
 
-    Button(onClick = {
-        coroutineScope.launch {
+    Button(
+        onClick = {
+            (context as? Activity)?.finish()
 //            navController.navigate("login_screen")
              val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
             val editor = sharedPrefs.edit()
             editor.putString("auth_token", "")
              editor.apply()
-        }
-    }, modifier = Modifier
-        .fillMaxWidth()
-        .height(80.dp)
-        .padding(top = 16.dp),
-         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red),
-        elevation =  ButtonDefaults.elevation(
-        defaultElevation =7.dp,
-        pressedElevation = 0.dp,
-        disabledElevation = 0.dp
-    )) {
+
+        }, modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .padding(top = 16.dp),
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red),
+        elevation = ButtonDefaults.elevation(
+            defaultElevation = 7.dp,
+            pressedElevation = 0.dp,
+            disabledElevation = 0.dp
+        )
+    ) {
         Image(
             painterResource(id = R.drawable.ic_join),
-            contentDescription ="SIGN OUT", modifier = Modifier.size(30.dp))
+            contentDescription = "SIGN OUT", modifier = Modifier.size(30.dp)
+        )
 
-        Text(text = "SIGN OUT", color = colorResource(id = R.color.blue), modifier = Modifier.padding(start = 10.dp), fontSize = 18.sp)
+        Text(
+            text = "SIGN OUT",
+            color = colorResource(id = R.color.blue),
+            modifier = Modifier.padding(start = 10.dp),
+            fontSize = 18.sp
+        )
     }
 }
 
