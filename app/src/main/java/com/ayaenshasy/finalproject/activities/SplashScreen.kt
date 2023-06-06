@@ -37,9 +37,9 @@ fun SplashScreen(navController: NavController) {
         getIsFirstTime(context)
         Log.e("token",getAuthToken(context).toString())
 
-        if (getAuthToken(context)!=null && getIsFirstTime(context) == true)
+        if (!getAuthToken(context).equals("") && getIsFirstTime(context) == true)
             navController.navigate("main_screen")
-        else if (getAuthToken(context)==null && getIsFirstTime(context) == false)
+        else if (getAuthToken(context).equals("") && getIsFirstTime(context) == false)
             navController.navigate("onboard_screen")
         else
             navController.navigate("login_screen")
